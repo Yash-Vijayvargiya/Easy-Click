@@ -1,31 +1,31 @@
-var item = {
+var menuItem = {
     id: "query:wikipedia",
     title: "Search on Wikipedia",
     contexts: ["selection"],
 };
 
-var item1 = {
+var menuItem1 = {
     id: "query:youtube",
     title: "Search on Youtube",
     contexts: ["selection"],
 };
 
-var item2 = {
+var menuItem2 = {
     id: "textToSpeech",
     title: "Convert text to speech",
     contexts: ["selection"],
 };
 
-chrome.contextMenus.create(item, () => chrome.runtime.lastError);
-chrome.contextMenus.create(item1, () => chrome.runtime.lastError);
-chrome.contextMenus.create(item2, () => chrome.runtime.lastError);
+chrome.contextMenus.create(menuItem, () => chrome.runtime.lastError);
+chrome.contextMenus.create(menuItem1, () => chrome.runtime.lastError);
+chrome.contextMenus.create(menuItem2, () => chrome.runtime.lastError);
 
 function fixedEncodeURIWikipedia(str) {
     return encodeURI(str).replace(/%5B/g, "[").replace(/%5D/g, "]");
 }
 
 chrome.contextMenus.onClicked.addListener(function (clickData) {
-    if (clickData.itemId == "query:wikipedia" && clickData.selectionText) {
+    if (clickData.menuItemId == "query:wikipedia" && clickData.selectionText) {
         var wikiUrl =
             "https://en.wikipedia.org/wiki/" +
             fixedEncodeURIWikipedia(clickData.selectionText);
@@ -40,11 +40,11 @@ chrome.contextMenus.onClicked.addListener(function (clickData) {
         chrome.windows.create(createData, function () {});
     }
 
-    if (clickData.itemId == "textToSpeech" && clickData.selectionText) {
+    if (clickData.menuItemId == "textToSpeech" && clickData.selectionText) {
         chrome.tts.speak(clickData.selectionText, { rate: 1 });
     }
 
-    if (clickData.itemId == "query:youtube" && clickData.selectionText) {
+    if (clickData.menuItemId == "query:youtube" && clickData.selectionText) {
         var wikiUrl =
             "https://www.youtube.com/results?search_query=" +
             fixedEncodeURIWikipedia(clickData.selectionText);
